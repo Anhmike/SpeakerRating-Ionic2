@@ -1,14 +1,15 @@
 import {Component} from "@angular/core";
+import { HTTP_PROVIDERS } from '@angular/http';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {HomePage} from './pages/home/home';
+import {ConferenceListPage} from './pages/conference-list/conference-list';
 
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>'
 })
 export class MyApp {
-  rootPage: any = HomePage;
+  rootPage: any = ConferenceListPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
@@ -19,5 +20,5 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp, [ HTTP_PROVIDERS ]);
 

@@ -9,5 +9,21 @@
 </ion-navbar>
 
 <ion-content padding class="rating">
+
+  <ion-card>
+    <img [src]="getImageSrcForItem(talk?.imageUrl)"/>
+    <div class="card-title">{{talk?.title}}</div>
+    <div class="card-subtitle">{{talk?.author}}</div>
+          <!-- Rating -->
+    <ion-icon name="star"></ion-icon>
+    <ion-icon name="star"></ion-icon>
+    <ion-icon name="star"></ion-icon>
+    <ion-icon name="star"></ion-icon>
+    <ion-icon name="star"></ion-icon>
+    <ion-item>
+      <ion-input type="text" placeholder="Whats your opinion?"></ion-input>
+    </ion-item>
+    <button light (click)="rateTalk()">Rate</button>
+  </ion-card>
   
 </ion-content>

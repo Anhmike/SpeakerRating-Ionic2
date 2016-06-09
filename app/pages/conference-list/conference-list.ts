@@ -32,8 +32,10 @@ export class ConferenceListPage implements OnInit{
     );
   }
   
-  showTalks() {
-    this.nav.push(TalkListPage);
+  showTalks(conference: Conference) {
+    this.nav.push(TalkListPage, {
+      conferenceId: conference.id
+    });
   }
   
   getImageSrcForItem(item: Conference): String {

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {TalkService} from "../../shared/talks/talk.service";
 import {Talk} from "../../shared/talks/talk";
+import {RatingPage} from "../rating/rating";
 
 /*
   Generated class for the TalkListPage page.
@@ -16,11 +17,14 @@ import {Talk} from "../../shared/talks/talk";
 export class TalkListPage implements OnInit {
   
   taskList: Array<Talk> = [];
+  private conferenceId: number;
   
-  constructor(public nav: NavController, private taskService: TalkService) {}
+  constructor(public nav: NavController, private taskService: TalkService, params: NavParams) {
+    this.conferenceId = params.get("conferenceId");
+  }
   
   ngOnInit() {
-    this.taskService.getTalksForConference(0).subscribe(
+    this.taskService.getTalksForConference(this.conferenceId).subscribe(
       data => {
         data.forEach(element => {
           this.taskList.push(new Talk(element.id, element.conferenceId, element.imageUrl, element.title, element.description, element.author));
@@ -38,6 +42,9 @@ export class TalkListPage implements OnInit {
   }
   
   rateTalk(talk: Talk) {
-    console.log("to rating");
+    this.nav.push( RatingPage, {
+      conferenceId: talk.conferenceId,
+      talkId: talk.id
+    })
   }
 }

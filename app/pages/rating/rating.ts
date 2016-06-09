@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Component, OnInit} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {TalkService} from "../../shared/talks/talk.service";
+import {Talk} from "../../shared/talks/talk";
 
 /*
   Generated class for the RatingPage page.
@@ -8,8 +10,36 @@ import {NavController} from 'ionic-angular';
   Ionic pages and navigation.
 */
 @Component({
+  providers: [TalkService],
   templateUrl: 'build/pages/rating/rating.html',
 })
-export class RatingPage {
-  constructor(public nav: NavController) {}
+export class RatingPage implements OnInit {
+
+  talk: Talk;
+
+  private conferenceId: number;
+  private talkId: number;
+
+  constructor(public nav: NavController, params: NavParams, private talkService: TalkService) {
+    this.conferenceId = params.get("conferenceId"); 
+    this.talkId = params.get("talkId")
+  }
+
+  ngOnInit() {
+    this.talkService.getTalk(this.conferenceId, this.talkId).subscribe(
+      data => this.talk = data,
+      error => console.log(error)
+    );
+  }
+
+  getImageSrcForItem(imageUrl: string): string {
+        if(imageUrl !== "") {
+            return imageUrl;
+        }
+        return "images/default_placeholder_image.png";
+  }
+
+  rateTalk() {
+    console.log("rate talk" + this.talk.author);
+  }
 }

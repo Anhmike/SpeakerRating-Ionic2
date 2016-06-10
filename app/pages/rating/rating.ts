@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams, Alert} from 'ionic-angular';
+import {ConferenceListPage} from '../conference-list/conference-list';
 import {TalkService} from "../../shared/talks/talk.service";
 import {Talk} from "../../shared/talks/talk";
 
@@ -15,10 +16,13 @@ import {Talk} from "../../shared/talks/talk";
 })
 export class RatingPage implements OnInit {
 
+  customerRating: string = "";
   talk: Talk;
-
+  buttonActive: Array<boolean> = [true, true, true, true, true];
+  
   private conferenceId: number;
   private talkId: number;
+  private selectedStars = 5;
 
   constructor(public nav: NavController, params: NavParams, private talkService: TalkService) {
     this.conferenceId = params.get("conferenceId"); 
@@ -33,13 +37,42 @@ export class RatingPage implements OnInit {
   }
 
   getImageSrcForItem(imageUrl: string): string {
-        if(imageUrl !== "") {
-            return imageUrl;
+    if(imageUrl !== "") {
+        return imageUrl;
+    }
+    return "images/default_placeholder_image.png";
+  }
+  
+  starSelected(starId: number) {
+    console.log("star clicked");
+    this.selectedStars = starId + 1;
+    for (var index = 0; index < this.buttonActive.length; index++) {
+        if( index <= starId ) {
+            this.buttonActive[index] = true;
+        } else {
+            this.buttonActive[index] = false;
         }
-        return "images/default_placeholder_image.png";
+    }
   }
 
   rateTalk() {
-    console.log("rate talk" + this.talk.author);
+    let starMessage = "Thanks for your rating with " + this.selectedStars + " stars";
+    let customerInput = ""
+    
+    if( this.customerRating !== "" ) {
+      customerInput = "Your Input: (" + this.customerRating + ")";
+    }
+    
+    let alert = Alert.create({
+      title: "Thanks for your rating",
+      subTitle: starMessage +  " <br>" + customerInput,
+      buttons: [{
+        text: "Ok",
+        handler: () => {
+          this.nav.push(ConferenceListPage);
+        }
+      }]
+    });
+    this.nav.present(alert);
   }
 }

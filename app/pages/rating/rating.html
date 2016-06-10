@@ -14,14 +14,12 @@
     <img [src]="getImageSrcForItem(talk?.imageUrl)"/>
     <div class="card-title">{{talk?.title}}</div>
     <div class="card-subtitle">{{talk?.author}}</div>
-          <!-- Rating -->
-    <ion-icon name="star"></ion-icon>
-    <ion-icon name="star"></ion-icon>
-    <ion-icon name="star"></ion-icon>
-    <ion-icon name="star"></ion-icon>
-    <ion-icon name="star"></ion-icon>
+    <!-- Rating -->
+    <button *ngFor="#number of [0,1,2,3,4]" clear (tap)="starSelected(number)"><ion-icon name="star" class="rating-button" [class.rating-button-active]="buttonActive[number]"></ion-icon></button>
+    <!-- TextArea --> 
     <ion-item>
-      <ion-input type="text" placeholder="Whats your opinion?"></ion-input>
+      <ion-label floating>Whats your opinion?</ion-label>
+      <ion-textarea [(ngModel)]="customerRating"></ion-textarea>
     </ion-item>
     <button light (click)="rateTalk()">Rate</button>
   </ion-card>
